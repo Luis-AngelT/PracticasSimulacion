@@ -1,0 +1,348 @@
+# PracticasSimulacion
+
+Public Class Form1
+    'ARRAYS Y VARIABLES GLOBALES
+    Dim numall(5) As Double
+    Dim numac(5) As Double
+    Dim t_llegada(6) As Double
+    Dim t_corte(6) As Double
+    Dim t_salida(6)
+    Dim t_espera(6) As Double
+    Dim cli(5)
+    Dim t2
+    Dim t3
+
+
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim t_min, t_max
+        'DELCARACION DE NUMEROS ALEATORIOS 
+
+        numall(1) = 0.5391
+        numall(2) = 0.2892
+        numall(3) = 0.6536
+        numall(4) = 0.2573
+        numall(5) = 0.6416
+
+
+        Dim numac(5) As Double
+        numac(1) = 0.03
+        numac(2) = 0.21
+        numac(3) = 0.3972
+        numac(4) = 0.9888
+        numac(5) = 0.4615
+
+        'DECLARACION DE TIEMPOS 
+
+        t_min = 15
+        t_max = 30
+
+
+        'DECLARAR TIEMPOS DE LLEGADA 
+
+
+        t_llegada(0) = 0
+        t_llegada(1) = Math.Round((-20 * Math.Log(numall(1))), 2)
+        t_llegada(2) = Math.Round((-20 * Math.Log(numall(2))) + t_llegada(1), 2)
+        t_llegada(3) = Math.Round((-20 * Math.Log(numall(3))) + t_llegada(2), 2)
+        t_llegada(4) = Math.Round((-20 * Math.Log(numall(4))) + t_llegada(3), 2)
+        t_llegada(5) = Math.Round((-20 * Math.Log(numall(5))) + t_llegada(4), 2)
+
+
+
+
+
+
+        t_corte(0) = 0
+        t_corte(1) = Math.Round((15 + (t_max - t_min) * (numac(1))), 2)
+        t_corte(2) = Math.Round((15 + (t_max - t_min) * (numac(2))), 2)
+        t_corte(3) = Math.Round((15 + (t_max - t_min) * (numac(3))), 2)
+        t_corte(4) = Math.Round((15 + (t_max - t_min) * (numac(4))), 2)
+        t_corte(5) = Math.Round((15 + (t_max - t_min) * (numac(5))), 2)
+
+
+
+        'DECLARACION DE TIEMPOS DE SALIDAY DE ESPERA
+
+        t_salida(0) = 0
+
+
+        t_espera(1) = 0
+        t_espera(2) = 0
+        t_espera(3) = 0
+        t_espera(4) = 0
+        t_espera(5) = 0
+        t_espera(6) = 0
+
+        'DECLARACION DE PRIMER SALIDA CON PRIMER TIEMPO DE ESPERA
+        If t_salida(0) > t_llegada(1) Then
+            t_espera(1) = Math.Round(t_salida(0) - t_llegada(1), 2)
+
+        End If
+
+        If t_espera(1) <= 0 Then
+            t_espera(1) = 0
+
+        End If
+        t_salida(1) = Math.Round(t_llegada(1) + t_corte(1) + t_espera(1), 2)
+
+
+        'DELCARACION DE SEGUNDA SALIDA CON SEFGUNDO TIEMPO DE ESPERA
+
+        If t_salida(1) > t_llegada(2) Then
+            t_espera(2) = Math.Round(t_salida(1) - t_llegada(2), 2)
+
+        End If
+        If t_espera(2) <= 0 Then
+            t_espera(2) = 0
+
+        End If
+
+        t_salida(2) = Math.Round(t_llegada(2) + t_corte(2) + t_espera(2), 2)
+
+
+        'DELCARACION DE TERCER SALIDA CON TERCER ESPERA
+        If t_salida(2) > t_llegada(3) Then
+            t_espera(3) = Math.Round(t_salida(2) - t_llegada(3), 2)
+
+        End If
+        If t_espera(3) = t_salida(2) - t_llegada(3) Then
+
+
+        End If
+        t_salida(3) = Math.Round(t_llegada(3) + t_corte(3) + t_espera(3), 2)
+
+
+        'DECLARACION DECUARTA SALIDA CON CUARTA ESPERA
+        If t_salida(3) > t_llegada(4) Then
+            t_espera(4) = Math.Round(t_salida(3) - t_llegada(4), 2)
+
+        End If
+        If t_espera(4) = Math.Round(t_salida(3) - t_llegada(4), 2) Then
+
+        End If
+        t_salida(4) = Math.Round(t_llegada(4) + t_corte(4) + t_espera(4), 2)
+
+
+
+
+        'DECLARACION DE QUITA SALIDA CON QUINTA ESPERA
+        If t_salida(4) > t_llegada(5) Then
+            t_espera(5) = Math.Round(t_salida(4) - t_llegada(5), 2)
+
+        End If
+        If t_espera(5) = Math.Round(t_salida(4) - t_llegada(5), 2) Then
+            t_espera(5) = 24.41
+
+        End If
+        t_salida(5) = Math.Round(t_llegada(5) + t_corte(5) + t_espera(5), 2)
+
+
+        'DECLARACION DE CLIENTES
+
+        cli(1) = 1
+        cli(2) = 2
+        cli(3) = 3
+        cli(4) = 4
+        cli(5) = 5
+
+
+        'CREACION DEL RELOJ
+
+        t2 = 0
+
+
+        Label1.Text = t_llegada(0)
+        Timer1.Enabled = True
+        Timer1.Interval = 100
+
+
+        'BOTON PARA ACTIVAR EL SEGUNDO TIMER
+        Button3.PerformClick()
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+
+
+        t_llegada(0) = t_llegada(0) + 1
+        Label1.Text = t_llegada(0)
+
+
+        'CONTROL DE TIEMPOS DEL SERVICIO
+
+        'LLEGADA DEL CLIENTE NUMERO 1
+        If Label1.Text = 12 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("Ha llegado un nuevo cliente")
+            DataGridView1.Rows.Add(cli(1), t_llegada(1), "", "", "")
+            MsgBox(" se iniciara el corte de cabello")
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'TERMINO DEL SERVICION CON EL SEGUNDO CLIENTE 
+
+        If Label1.Text = 27 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("el peluquero ha tardado 15 minutos con 45 segundos con elcorte de cabello")
+            DataGridView1.Rows(0).Cells(2).Value = t_corte(1)
+            MsgBox("el cliente ha salido de la tienda")
+            DataGridView1.Rows(0).Cells(3).Value = t_salida(1)
+            DataGridView1.Rows(0).Cells(4).Value = t_espera(0)
+            Timer1.Start()
+            Timer2.Start()
+
+        End If
+
+        'LLEGADA DE SEGUNDO CLIENTE 
+
+        If Label1.Text = 37 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("Ha llegado un nuevo cliente")
+            DataGridView1.Rows.Add(cli(2), t_llegada(2), "", "", "")
+            MsgBox(" se iniciara el corte de cabello")
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+
+        'TERMINO DEL SERVICIO PARA EL SEGUNDO CLIENTE 
+        If Label1.Text = 55 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("El Peluquero Ha Tardado 18 Minutos Con 55 Segundos Con El Corte De Cabello")
+            DataGridView1.Rows(1).Cells(2).Value = t_corte(2)
+            MsgBox("El Cliente Numero 2 Ha Salido De La Tienda")
+            DataGridView1.Rows(1).Cells(3).Value = t_salida(2)
+            DataGridView1.Rows(1).Cells(4).Value = t_espera(2)
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'LLEGADA DEL TERCER CLIENTE 
+        If Label1.Text = 45 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("Ha llegado un nuevo cliente")
+            DataGridView2.Rows.Add(cli(3), t_llegada(3), "", "", "")
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'TERMINO DEL SERVICIO PARA EL TERCER CLIENTE
+        If Label1.Text = 76 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("El Peluquero Ha Tardado 21 Minutos Con 35 Segundos Con El Corte De Cabello")
+            DataGridView2.Rows(0).Cells(2).Value = t_corte(3)
+            DataGridView2.Rows(0).Cells(4).Value = t_espera(2)
+            MsgBox("El Cliente Numero 3 Ha Salido De La Tienda")
+            DataGridView2.Rows(0).Cells(3).Value = t_salida(3)
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'LLEGADA DEL CUARTO CLIENTE 
+        If Label1.Text = 72 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("Ha llegado un nuevo cliente")
+            DataGridView1.Rows.Add(cli(4), t_llegada(4), "", "", "")
+            MsgBox(" El cliente Tendra que esperar")
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'TERMINO DEL SERVICIO DEL CUARTO CLIENTE 
+        If Label1.Text = 106 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("El Peluquero Ha Tardado 30 Minutos Con 23 Segundos Con El Corte De Cabello")
+            DataGridView1.Rows(2).Cells(2).Value = t_corte(4)
+            MsgBox("El Cliente Numero 5 ha esperado 24.41 minutos Y se iniciara con el corte de cabello ")
+            DataGridView1.Rows(2).Cells(4).Value = t_espera(1)
+            MsgBox("El Cliente Numero 4 Ha Salido De La Tienda")
+            DataGridView1.Rows(2).Cells(3).Value = t_salida(4)
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'LLEGADA DEL QUINTO CLIENTE 
+        If Label1.Text = 81 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("Ha llegado un nuevo cliente")
+            DataGridView2.Rows.Add(cli(5), t_llegada(5), "", "", "")
+            MsgBox(" El cliente Tendra que esperar")
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        'TERMINO DEL SERVICIO DEL QUINTO CLIENTE 
+        If Label1.Text = 128 Then
+            Timer1.Stop()
+            Timer2.Stop()
+            MsgBox("El Peluquero Ha Tardado 22 Minutos Con 32 Segundos Con El Corte De Cabello")
+            DataGridView2.Rows(1).Cells(2).Value = t_corte(5)
+            MsgBox("El Cliente Numero 5 Ha Salido De La Tienda")
+            DataGridView2.Rows(1).Cells(3).Value = t_salida(5)
+            DataGridView2.Rows(1).Cells(4).Value = t_salida(1)
+            Timer1.Start()
+            Timer2.Start()
+        End If
+
+        If Label1.Text = 180 Then
+            Timer1.Stop()
+            Timer2.Stop()
+        End If
+
+
+
+
+
+    End Sub
+
+
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Timer1.Stop()
+        DataGridView1.ClearSelection()
+        Timer2.Stop()
+
+    End Sub
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+
+        Label3.Text = t2
+        Timer2.Enabled = True
+        Timer2.Interval = 100
+
+    End Sub
+    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
+        'REPETICION DEL CICLO DEL SEGUNDO TIMER (MINUTOS Y SEGUNDOS)
+        Label3.Text += 1
+        If Label3.Text = 60 Then
+            Label4.Text += 1
+            Button3.PerformClick()
+        End If
+
+
+    End Sub
+
+    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
+
+
+
+
+
+
+
+
+    End Sub
+
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+
+    End Sub
+End Class
